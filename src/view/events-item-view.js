@@ -1,14 +1,15 @@
 import {createElement} from '../render.js';
 import { humanizeEventDate, humanizeEventTime } from '../utils.js';
-import { offersByType} from '../mock/event.js';
+import { offersByType, Destinations} from '../mock/event.js';
 
 function createTemplateEventsItem(event) {
 
-  const {type, basePrice, destination, offers, dateFrom, dateTo} = event;
+  const {type, basePrice, offers, dateFrom, dateTo} = event;
   const dateFirst = humanizeEventTime(dateFrom);
   const dateSecond = humanizeEventTime(dateTo);
   const date = humanizeEventDate(dateFrom);
   const offerByType = offersByType.find((offer) => offer.type === type);
+  const eventDestination = Destinations.find((item) => event.destination === item.id);
   const checkedOffers = offerByType.offers
     .filter((offer) => offers.includes(offer.id));
 
@@ -32,7 +33,7 @@ function createTemplateEventsItem(event) {
     <div class="event__type">
       <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
     </div>
-    <h3 class="event__title">${type} ${destination.name}</h3>
+    <h3 class="event__title">${type} ${eventDestination.name}</h3>
     <div class="event__schedule">
       <p class="event__time">
         <time class="event__start-time" datetime="2019-03-18T12:25">${dateFirst}</time>

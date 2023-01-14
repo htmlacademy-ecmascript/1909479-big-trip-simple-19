@@ -1,6 +1,6 @@
 import {createElement} from '../render.js';
 import { humanizeEditFormDate } from '../utils.js';
-import { offersByType } from '../mock/event.js';
+import { offersByType, Destinations } from '../mock/event.js';
 
 function createOffersTemplate(checkingOffers, currentType) {
 
@@ -21,12 +21,10 @@ function createOffersTemplate(checkingOffers, currentType) {
 }
 
 function createTemplateEditEvent(event) {
-  const {type, destination, basePrice, dateFrom, offers, dateTo} = event;
+  const {type, basePrice, dateFrom, offers, dateTo} = event;
   const firstDate = humanizeEditFormDate(dateFrom);
   const secondDate = humanizeEditFormDate(dateTo);
-  // const offerByType = offersByType.find((offer) => offer.type === type);
-  // const offerByType = offersByType(event);
-
+  const eventDestination = Destinations.find((item) => event.destination === item.id);
 
   function createEventTypeItem () {
     return (
@@ -58,7 +56,7 @@ function createTemplateEditEvent(event) {
         <label class="event__label  event__type-output" for="event-destination-1">
           ${type}
         </label>
-        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value=${destination.name} list="destination-list-1">
+        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value=${eventDestination.name} list="destination-list-1">
         <datalist id="destination-list-1">
           <option value="Amsterdam"></option>
           <option value="Geneva"></option>
@@ -95,7 +93,7 @@ function createTemplateEditEvent(event) {
       </section>
       <section class="event__section  event__section--destination">
         <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-        <p class="event__destination-description">${destination.description}</p>
+        <p class="event__destination-description">${eventDestination.description}</p>
       </section>
     </section>
   </form>
