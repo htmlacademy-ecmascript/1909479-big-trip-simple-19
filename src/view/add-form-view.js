@@ -145,18 +145,19 @@ function createTemplateAddNewEvent() {
 }
 
 export default class AddNewEventView {
-  getTemplate() {
+  #element = null;
+  get template() {
     return createTemplateAddNewEvent();
   }
 
-  getElement() {
-    if(!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if(!this.#element) {
+      this.#element = createElement(this.template);
     }
-    return this.element;
+    return this.#element;
   }
 
   remoweElement() {
-    this.element = null;
+    this.#element = null;
   }
 }

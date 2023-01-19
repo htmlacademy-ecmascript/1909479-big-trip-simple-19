@@ -4,15 +4,14 @@ import { offersByType, Destinations} from '../mock/event.js';
 
 function createTemplateEventsItem(event) {
 
-  const {type, basePrice, offers, dateFrom, dateTo} = event;
+  const {type, basePrice, destination, offers, dateFrom, dateTo} = event;
   const dateFirst = humanizeEventTime(dateFrom);
   const dateSecond = humanizeEventTime(dateTo);
   const date = humanizeEventDate(dateFrom);
   const offerByType = offersByType.find((offer) => offer.type === type);
-  const eventDestination = Destinations.find((item) => event.destination === item.id);
+  const eventDestination = Destinations.find((item) => destination === item.id);
   const checkedOffers = offerByType.offers
     .filter((offer) => offers.includes(offer.id));
-
   const offersTemplate = () => {
     if (!checkedOffers.length) {
       return `<li class="event__offer">
@@ -54,24 +53,25 @@ function createTemplateEventsItem(event) {
   </div>
 </li>`;
 }
-
 export default class EventsItemView {
   constructor ({event}) {
     this.event = event;
   }
 
-  getTemplate() {
+  #element = null;
+
+  get template() {
     return createTemplateEventsItem(this.event);
   }
 
-  getElement() {
-    if(!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if(!this.#element) {
+      this.#element = createElement(this.template);
     }
-    return this.element;
+    return this.#element;
   }
 
   remoweElement() {
-    this.element = null;
+    this.#element = null;
   }
 }
