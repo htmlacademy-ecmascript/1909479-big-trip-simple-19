@@ -21,11 +21,10 @@ function createOffersTemplate(checkingOffers, currentType) {
 }
 
 function createTemplateEditEvent(event) {
-  const {type, basePrice, dateFrom, offers, dateTo} = event;
+  const {type, destination, basePrice, id, dateFrom, offers, dateTo} = event;
   const firstDate = humanizeEditFormDate(dateFrom);
   const secondDate = humanizeEditFormDate(dateTo);
-  const eventDestination = Destinations.find((item) => event.destination === item.id);
-
+  const eventDestination = Destinations.find((item) => destination === item.id);
   function createEventTypeItem () {
     return (
       `<div class="event__type-item">
@@ -33,7 +32,6 @@ function createTemplateEditEvent(event) {
       <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type}</label>
     </div>`);
   }
-
 
   return `<li class="trip-events__item">
   <form class="event event--edit" action="#" method="post">
@@ -48,7 +46,6 @@ function createTemplateEditEvent(event) {
           <fieldset class="event__type-group">
             <legend class="visually-hidden">Event type</legend>
             ${createEventTypeItem}
-
           </fieldset>
         </div>
       </div>
@@ -56,8 +53,8 @@ function createTemplateEditEvent(event) {
         <label class="event__label  event__type-output" for="event-destination-1">
           ${type}
         </label>
-        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value=${eventDestination.name} list="destination-list-1">
-        <datalist id="destination-list-1">
+        <input class="event__input  event__input--destination" id="event-destination-${id}" type="text" name="event-destination" value=${eventDestination.name} list="destination-list-${id}">
+        <datalist id="destination-list-${id}">
           <option value="Amsterdam"></option>
           <option value="Geneva"></option>
           <option value="Chamonix"></option>
@@ -88,7 +85,6 @@ function createTemplateEditEvent(event) {
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
         <div class="event__available-offers">
         ${createOffersTemplate(offers, type)}
-
         </div>
       </section>
       <section class="event__section  event__section--destination">
@@ -105,18 +101,20 @@ export default class EditEventView {
     this.event = event;
   }
 
-  getTemplate() {
+  #element = null;
+
+  get template() {
     return createTemplateEditEvent(this.event);
   }
 
-  getElement() {
-    if(!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if(!this.#element) {
+      this.#element = createElement(this.template);
     }
-    return this.element;
+    return this.#element;
   }
 
   remoweElement() {
-    this.element = null;
+    this.#element = null;
   }
 }
