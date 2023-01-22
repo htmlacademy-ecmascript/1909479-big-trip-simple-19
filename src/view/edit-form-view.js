@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view';
 import { humanizeEditFormDate } from '../utils.js';
 import { offersByType, Destinations } from '../mock/event.js';
 
@@ -96,25 +96,39 @@ function createTemplateEditEvent(event) {
 </li>`;
 }
 
-export default class EditEventView {
-  constructor (event) {
-    this.event = event;
+export default class EditEventView extends AbstractView{
+  #event = null;
+  #handleFormSubmit = null;
+  #handlerFormClick = null;
+
+  constructor ({event, onFormSubmit, onFormClick}) {
+    super();
+    this.#event = event;
+    this.#handleFormSubmit = onFormSubmit;
+    this.#handlerFormClick = onFormClick;
+
+    this.element.querySelector('form')
+      .addEventListener('submit', this.#formSubmitHandler);
+
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#formClickHandler);
   }
 
-  #element = null;
 
   get template() {
-    return createTemplateEditEvent(this.event);
+    return createTemplateEditEvent(this.#event);
   }
 
-  get element() {
-    if(!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
-  }
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormSubmit();
+    this.#handlerFormClick();
+  };
 
-  remoweElement() {
-    this.#element = null;
-  }
+  #formClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handlerFormClick();
+  };
+
+
 }
