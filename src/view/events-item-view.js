@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view';
 import { humanizeEventDate, humanizeEventTime } from '../utils.js';
 import { offersByType, Destinations} from '../mock/event.js';
 
@@ -53,25 +53,25 @@ function createTemplateEventsItem(event) {
   </div>
 </li>`;
 }
-export default class EventsItemView {
-  constructor ({event}) {
-    this.event = event;
-  }
+export default class EventsItemView extends AbstractView{
+  #event = null;
+  #handleEditClick = null;
 
-  #element = null;
+  constructor ({event, onEditClick}) {
+    super();
+    this.#event = event;
+    this.#handleEditClick = onEditClick;
+
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#editClickHandler);
+  }
 
   get template() {
-    return createTemplateEventsItem(this.event);
+    return createTemplateEventsItem(this.#event);
   }
 
-  get element() {
-    if(!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
-  }
-
-  remoweElement() {
-    this.#element = null;
-  }
+  #editClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleEditClick();
+  };
 }

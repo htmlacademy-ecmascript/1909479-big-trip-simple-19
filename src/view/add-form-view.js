@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view';
 
 function createTemplateAddNewEvent() {
   return ` <li class="trip-events__item">
@@ -144,20 +144,9 @@ function createTemplateAddNewEvent() {
 </li>`;
 }
 
-export default class AddNewEventView {
-  #element = null;
+export default class AddNewEventView extends AbstractView{
+
   get template() {
     return createTemplateAddNewEvent();
-  }
-
-  get element() {
-    if(!this.#element) {
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
-  }
-
-  remoweElement() {
-    this.#element = null;
   }
 }
