@@ -1,4 +1,3 @@
-// const OFFERS_TYPE = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 const EVENTS_TYPE = [
   'taxi',
   'bus',
@@ -35,7 +34,8 @@ const DESCRIPTIONS = [
   'In rutrum ac purus sit amet tempus.'
 ];
 
-
-export {EVENTS_TYPE, CITIES, DESCRIPTIONS};
-// Нужно переделать под добавление 1 - 5 предложений описания
-// comments: Array.from({length: getRandomInteger(1, COMMENTS_COUNT) }, (_ , id) => createComment(id + 1))
+const FilterType = {
+  EVERYTHING: 'everything',
+  FUTURE: 'future'
+};
+export {EVENTS_TYPE, CITIES, DESCRIPTIONS, FilterType};

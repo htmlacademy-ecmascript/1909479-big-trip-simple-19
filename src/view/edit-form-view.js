@@ -1,6 +1,6 @@
 import AbstractView from '../framework/view/abstract-view';
-import { humanizeEditFormDate } from '../utils.js';
-import { offersByType, Destinations } from '../mock/event.js';
+import { humanizeFormDate } from '../utils/utils';
+import { offersByType, Destinations } from '../mock/event-mock.js';
 
 function createOffersTemplate(checkingOffers, currentType) {
 
@@ -22,8 +22,8 @@ function createOffersTemplate(checkingOffers, currentType) {
 
 function createTemplateEditEvent(event) {
   const {type, destination, basePrice, id, dateFrom, offers, dateTo} = event;
-  const firstDate = humanizeEditFormDate(dateFrom);
-  const secondDate = humanizeEditFormDate(dateTo);
+  const firstDate = humanizeFormDate(dateFrom);
+  const secondDate = humanizeFormDate(dateTo);
   const eventDestination = Destinations.find((item) => destination === item.id);
   function createEventTypeItem () {
     return (

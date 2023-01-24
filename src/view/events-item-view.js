@@ -1,6 +1,6 @@
 import AbstractView from '../framework/view/abstract-view';
-import { humanizeEventDate, humanizeEventTime } from '../utils.js';
-import { offersByType, Destinations} from '../mock/event.js';
+import { humanizeEventDate, humanizeEventTime } from '../utils/event-utils';
+import { offersByType, Destinations} from '../mock/event-mock.js';
 
 function createTemplateEventsItem(event) {
 

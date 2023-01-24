@@ -1,4 +1,4 @@
-import { getRandomArrayElement, getRandomInteger } from '../utils';
+import { getRandomArrayElement, getRandomInteger } from '../utils/utils';
 import { CITIES, EVENTS_TYPE, DESCRIPTIONS } from '../const';
 
 const Destinations = [
@@ -201,8 +201,8 @@ const offersByType = [
 const mockEvent = [
   {
     basePrice: 1000,
-    dateFrom: '2019-05-10T12:20:56.845Z',
-    dateTo: '2019-05-10T20:22:13.375Z',
+    dateFrom: '2022-02-10T12:20:56.845Z',
+    dateTo: '2022-02-10T20:22:13.375Z',
     destination: getRandomInteger(1, 4),
     id: '1',
     offers: [8],
