@@ -1,7 +1,5 @@
 import dayjs from 'dayjs';
 
-const TIME_FORMAT = 'HH mm';
-const DATE_FORMAT = 'MMM DD';
 const EDIT_FORM_DATE_FORMAT = 'DD/MM/YY HH:mm';
 function getRandomArrayElement(items) {
   return items[Math.floor(Math.random() * items.length)];
@@ -17,14 +15,8 @@ function getRandomInteger (min, max) {
   return Math.floor(result);
 }
 
-function humanizeEventTime (dueDate) {
-  return dueDate ? dayjs(dueDate).format(TIME_FORMAT) : '';
-}
-function humanizeEventDate (dueDate) {
-  return dueDate ? dayjs(dueDate).format(DATE_FORMAT) : '';
-}
-function humanizeEditFormDate (dueDate) {
+function humanizeFormDate (dueDate) {
   return dueDate ? dayjs(dueDate).format(EDIT_FORM_DATE_FORMAT) : '';
 }
 
-export {getRandomArrayElement, getRandomInteger, humanizeEventTime, humanizeEventDate, humanizeEditFormDate};
+export {getRandomArrayElement, getRandomInteger, humanizeFormDate};
