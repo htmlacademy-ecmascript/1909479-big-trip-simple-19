@@ -1,5 +1,6 @@
 import { getRandomArrayElement, getRandomInteger } from '../utils/utils';
 import { CITIES, EVENTS_TYPE, DESCRIPTIONS } from '../const';
+import { nanoid } from 'nanoid';
 
 const Destinations = [
   {
@@ -204,7 +205,6 @@ const mockEvent = [
     dateFrom: '2022-02-10T12:20:56.845Z',
     dateTo: '2022-02-10T20:22:13.375Z',
     destination: getRandomInteger(1, 4),
-    id: '1',
     offers: [8],
     type: getRandomArrayElement(EVENTS_TYPE)
   },
@@ -213,7 +213,6 @@ const mockEvent = [
     dateFrom: '2019-07-11T12:55:56.845Z',
     dateTo: '2019-07-11T14:53:13.375Z',
     destination: getRandomInteger(1, 4),
-    id: '2',
     offers:  [1,4],
     type: getRandomArrayElement(EVENTS_TYPE)
   },
@@ -222,7 +221,6 @@ const mockEvent = [
     dateFrom: '2019-11-11T09:03:56.845Z',
     dateTo: '2019-11-11T12:50:13.375Z',
     destination: getRandomInteger(1, 4),
-    id: '3',
     offers:  [1,2],
     type: getRandomArrayElement(EVENTS_TYPE)
   },
@@ -230,7 +228,10 @@ const mockEvent = [
 ];
 
 function getRandomEvent () {
-  return getRandomArrayElement(mockEvent);
+  return {
+    id: nanoid(),
+    ...getRandomArrayElement(mockEvent),
+  };
 }
 
 export {getRandomEvent, offersByType, Destinations};
