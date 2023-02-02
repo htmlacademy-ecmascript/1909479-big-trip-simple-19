@@ -1,13 +1,13 @@
 const EVENTS_TYPE = [
-  'taxi',
-  'bus',
-  'train',
-  'ship',
-  'drive',
-  'flight',
-  'check-in',
-  'sightseeing',
-  'restaurant'
+  'Taxi',
+  'Bus',
+  'Train',
+  'Ship',
+  'Drive',
+  'Flight',
+  'Check-in',
+  'Sightseeing',
+  'Restaurant'
 ];
 const CITIES = [
   'Kazan',
@@ -38,4 +38,11 @@ const FilterType = {
   EVERYTHING: 'everything',
   FUTURE: 'future'
 };
-export {EVENTS_TYPE, CITIES, DESCRIPTIONS, FilterType};
+
+const SortType = {
+  DEFAULT: 'default',
+  DATE: 'date',
+  PRICE: 'price'
+};
+
+export {EVENTS_TYPE, CITIES, DESCRIPTIONS, FilterType, SortType};

@@ -3,15 +3,19 @@ import EventPresenter from './event-presenter.js';
 import SortingView from '../view/sorting-view.js';
 import NoEventView from '../view/no-event-view.js';
 import {render} from '../framework/render.js';
+import { SortType } from '../const.js';
+import { sortEventDate, sortEventPrice } from '../utils/event-utils.js';
 
 export default class BoardPresenter {
   #boardContainer = null;
   #eventModel = null;
   #boardEvents = [];
   #boardComponent = new EventsListView();
-  #sortComponent = new SortingView();
+  #sortComponent = null;
   #noEventView = new NoEventView();
   #eventsPresenter = new Map();
+  #currentSortType = SortType.DEFAULT;
+  #soursetBoardEvents = [];
 
   constructor({boardContainer, eventModel}) {
     this.#boardContainer = boardContainer;
@@ -20,6 +24,7 @@ export default class BoardPresenter {
 
   init() {
     this.#boardEvents = [...this.#eventModel.events];
+    this.#soursetBoardEvents = [...this.#eventModel.events];
     this.#renderBoard();
   }
 
@@ -27,12 +32,43 @@ export default class BoardPresenter {
     this.#eventsPresenter.forEach((presenter) => presenter.resetView());
   };
 
+  #handleSortTypeChange = (sortType) => {
+    if (this.#currentSortType === sortType) {
+      return;
+    }
+
+    this.#sortEvents(sortType);
+    this.#clearEventList();
+    this.#renderEvents();
+  };
+
+  #sortEvents(sortType) {
+    switch (sortType) {
+      case SortType.DATE:
+        this.#boardEvents.sort(sortEventDate);
+        break;
+      case SortType.PRICE:
+        this.#boardEvents.sort(sortEventPrice);
+        break;
+      default:
+        this.#boardEvents = [...this.#soursetBoardEvents];
+    }
+
+    this.#currentSortType = sortType;
+  }
+
   #renderSort() {
+    this.#sortComponent = new SortingView({onSortTypeChange: this.#handleSortTypeChange});
     render(this.#sortComponent, this.#boardContainer);
   }
 
   #renderNoEvents () {
     render(this.#noEventView, this.#boardContainer);
+  }
+
+  #clearEventList() {
+    this.#eventsPresenter.forEach((presenter) => presenter.destroy());
+    this.#eventsPresenter.clear();
   }
 
   #renderEvent(event) {

@@ -19,4 +19,8 @@ function humanizeFormDate (dueDate) {
   return dueDate ? dayjs(dueDate).format(EDIT_FORM_DATE_FORMAT) : '';
 }
 
-export {getRandomArrayElement, getRandomInteger, humanizeFormDate};
+function getCapitalize(str) {
+  return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
+}
+
+export {getRandomArrayElement, getRandomInteger, humanizeFormDate, getCapitalize};
