@@ -79,11 +79,49 @@ const Destinations = [
       }
     ]
   },
+  {
+    id: 5,
+    description: Array.from({length: getRandomInteger(1,4)},() => getRandomArrayElement(DESCRIPTIONS)).join(' '),
+    name: getRandomArrayElement(CITIES),
+    pictures: [
+      {
+        src: `https://loremflickr.com/248/152?random=${getRandomInteger(1, 1000)}`,
+        description: getRandomArrayElement(DESCRIPTIONS)
+      },
+      {
+        src: `https://loremflickr.com/248/152?random=${getRandomInteger(1, 1000)}`,
+        description: getRandomArrayElement(DESCRIPTIONS)
+      },
+      {
+        src: `https://loremflickr.com/248/152?random=${getRandomInteger(1, 1000)}`,
+        description: getRandomArrayElement(DESCRIPTIONS)
+      }
+    ]
+  },
+  {
+    id: 6,
+    description: Array.from({length: getRandomInteger(1,4)},() => getRandomArrayElement(DESCRIPTIONS)).join(' '),
+    name: getRandomArrayElement(CITIES),
+    pictures: [
+      {
+        src: `https://loremflickr.com/248/152?random=${getRandomInteger(1, 1000)}`,
+        description: getRandomArrayElement(DESCRIPTIONS)
+      },
+      {
+        src: `https://loremflickr.com/248/152?random=${getRandomInteger(1, 1000)}`,
+        description: getRandomArrayElement(DESCRIPTIONS)
+      },
+      {
+        src: `https://loremflickr.com/248/152?random=${getRandomInteger(1, 1000)}`,
+        description: getRandomArrayElement(DESCRIPTIONS)
+      }
+    ]
+  },
 ];
 
 const offersByType = [
   {
-    type: 'flight',
+    type: 'Flight',
     offers: [
       {
         id: 1,
@@ -113,7 +151,7 @@ const offersByType = [
     ]
   },
   {
-    type: 'taxi',
+    type: 'Taxi',
     offers: [
       {
         id: 1,
@@ -123,7 +161,7 @@ const offersByType = [
     ]
   },
   {
-    type: 'drive',
+    type: 'Drive',
     offers: [
       {
         id: 1,
@@ -133,7 +171,7 @@ const offersByType = [
     ]
   },
   {
-    type: 'sightseeing',
+    type: 'Sightseeing',
     offers: [
       {
         id: 1,
@@ -148,7 +186,7 @@ const offersByType = [
     ]
   },
   {
-    type: 'check-in',
+    type: 'Check-in',
     offers: [
       {
         id: 1,
@@ -158,7 +196,7 @@ const offersByType = [
     ]
   },
   {
-    type: 'bus',
+    type: 'Bus',
     offers: [
       {
         id: 1,
@@ -168,7 +206,7 @@ const offersByType = [
     ]
   },
   {
-    type: 'train',
+    type: 'Train',
     offers: [
       {
         id: 1,
@@ -178,7 +216,7 @@ const offersByType = [
     ]
   },
   {
-    type: 'ship',
+    type: 'Ship',
     offers: [
       {
         id: 1,
@@ -188,7 +226,7 @@ const offersByType = [
     ]
   },
   {
-    type: 'restaurant',
+    type: 'Restaurant',
     offers: [
       {
         id: 1,
