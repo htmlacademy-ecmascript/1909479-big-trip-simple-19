@@ -1,6 +1,8 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view';
 import { humanizeFormDate } from '../utils/utils';
 import { offersByType, Destinations } from '../mock/event-mock.js';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 
 function createOffersTemplate(checkingOffers, currentType) {
 
@@ -45,10 +47,9 @@ function createTemplateEditEvent(event) {
   const firstDate = humanizeFormDate(dateFrom);
   const secondDate = humanizeFormDate(dateTo);
 
-  const allType = offersByType.map((offer) =>
-
+  const eventsByType = offersByType.map((offer) =>
     `<div class="event__type-item">
-      <input id="event-type-${offer.type.toLowerCase()}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${offer.type}">
+      <input id="event-type-${offer.type.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${offer.type}">
       <label class="event__type-label  event__type-label--${offer.type.toLowerCase()}" for="event-type-${offer.type.toLowerCase()}-1">${offer.type}</label>
     </div>`
   ).join('');
@@ -59,13 +60,13 @@ function createTemplateEditEvent(event) {
       <div class="event__type-wrapper">
         <label class="event__type  event__type-btn" for="event-type-toggle-${id}">
           <span class="visually-hidden">Choose event type</span>
-          <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
+          <img class="event__type-icon" width="17" height="17" src="img/icons/${type.toLowerCase()}.png" alt="Event type icon">
         </label>
         <input class="event__type-toggle  visually-hidden" id="event-type-toggle-${id}" type="checkbox">
         <div class="event__type-list">
           <fieldset class="event__type-group">
             <legend class="visually-hidden">Event type</legend>
-            ${allType}
+            ${eventsByType}
           </fieldset>
         </div>
       </div>
@@ -117,6 +118,8 @@ function createTemplateEditEvent(event) {
 export default class EditEventView extends AbstractStatefulView{
   #handleFormSubmit = null;
   #handlerFormClick = null;
+  #datepickerFrom = null;
+  #datepickerTo = null;
 
   constructor ({event, onFormSubmit, onFormClick}) {
     super();
@@ -125,6 +128,7 @@ export default class EditEventView extends AbstractStatefulView{
     this.#handlerFormClick = onFormClick;
 
     this._restoreHandlers();
+    this.#initDatepickers();
   }
 
   get template() {
@@ -138,7 +142,6 @@ export default class EditEventView extends AbstractStatefulView{
     this.element.querySelector('.event__rollup-btn')
       .addEventListener('click', this.#formClickHandler);
 
-    // Тут навешивается обработчик
     this.element.querySelector('.event__type-group')
       .addEventListener('change', this.#typeToggleHandler);
 
@@ -146,20 +149,60 @@ export default class EditEventView extends AbstractStatefulView{
       .addEventListener('change', this.#destinationInputHandler);
   }
 
+  removeElement() {
+    super.removeElement();
+
+    if (this.#datepickerFrom) {
+      this.#datepickerFrom.destroy();
+      this.#datepickerFrom = null;
+    }
+    if(this.#datepickerTo) {
+      this.#datepickerTo.destroy();
+      this.#datepickerTo = null;
+    }
+  }
+
+  #initDatepickers = () => {
+    this.#datepickerFrom = flatpickr(this.element.querySelector('#event-start-time-1'), {
+      dateFormat: 'd/m/y H:i',
+      enableTime: true,
+      defaultDate: this._state.firstDate,
+      onChange: this.#dateFromChangeHandler,
+    });
+
+    this.#datepickerTo = flatpickr(this.element.querySelector('#event-end-time-1'), {
+      dateFormat: 'd/m/y H:i',
+      enableTime: true,
+      defaultDate: this._state.secondDate,
+      onChange: this.#dateToChangeHandler,
+    });
+  };
+
+  #dateFromChangeHandler = ([date]) => {
+    this.updateElement( {...this._state.event, firstDate: date});
+    this.#initDatepickers();
+  };
+
+  #dateToChangeHandler = ([date]) => {
+    this.updateElement( {...this._state.event, secondDate: date });
+    this.#initDatepickers();
+  };
+
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormSubmit(EditEventView.parseStateToEvent(this._state));
+    this.#initDatepickers();
   };
 
   #formClickHandler = () => this.#handlerFormClick();
 
-  // Сам обработчик, не работает.
   #typeToggleHandler = (evt) => {
     evt.preventDefault();
     this.updateElement({
       offers: [],
       type: evt.target.value,
     });
+    this.#initDatepickers();
   };
 
   #destinationInputHandler = (evt) => {
@@ -174,6 +217,7 @@ export default class EditEventView extends AbstractStatefulView{
     this.updateElement({
       destination: actualDestinationID,
     });
+    this.#initDatepickers();
   };
 
   static parseEventToState(event) {
